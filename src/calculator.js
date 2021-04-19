@@ -37,7 +37,6 @@ export const calculatorSlice = createSlice({
         state.showingResult = false;
       }
       if (!state.awaitingOperator && moreThanTwoOperators(state.operation)) {
-        console.log("aaaaaaaa")
         state.operation = state.operation.slice(0, -2);
       } else if (!state.awaitingOperator && action.payload !== "-") {
         state.operation = state.operation.slice(0, -1);
