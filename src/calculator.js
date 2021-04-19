@@ -6,6 +6,16 @@ const initialState = {
   showingResult: true,
   awaitingOperator: true,
 }
+
+const moreThanTwoOperators = (s) => {
+  if (s.length <= 1) return false;
+  let lastTwo = s.slice(-2);
+  const operators = ["+", "-", "*", "/"];
+  lastTwo = lastTwo.split("");
+  return operators.includes(lastTwo[0]) && operators.includes(lastTwo[1])
+  
+}
+
 export const calculatorSlice = createSlice({
   name: 'calculator',
   initialState: initialState,
@@ -26,9 +36,13 @@ export const calculatorSlice = createSlice({
         state.operation = state.display;
         state.showingResult = false;
       }
-      if (!state.awaitingOperator && action.payload !== "-") {
+      if (!state.awaitingOperator && moreThanTwoOperators(state.operation)) {
+        console.log("aaaaaaaa")
+        state.operation = state.operation.slice(0, -2);
+      } else if (!state.awaitingOperator && action.payload !== "-") {
         state.operation = state.operation.slice(0, -1);
       }
+
       state.display = action.payload;
       state.operation = state.operation + action.payload;
       state.awaitingOperator = false;
